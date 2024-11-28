@@ -46,13 +46,18 @@ export const AriaPlugin: AriaPluginFunction = (
       locale: 'en-US',
       live: false,
       debounce: 300,
-      onFocusChange: () => {},
+      onFocusChange: () => { },
     };
 
     const base = mergeOptions(defaultOptions, AriaPlugin.globalOptions);
     options = optionsAtMedia(mergeOptions(base, userOptions));
 
-    intl = getIntl(options.locale);
+    try {
+      intl = getIntl(options.locale);
+    } catch (error) {
+      console.warn(error)
+      intl = getIntl(defaultOptions.locale)
+    }
 
     const root = emblaApi.rootNode();
 
